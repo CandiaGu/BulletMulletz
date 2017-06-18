@@ -5,7 +5,7 @@ import java.util.*;
  */
 
 public class Bullet {
-    private String dbName = "bulletDb"; //or whatever you need to access bs
+    private String tableName = "bullets"; //or whatever you need to access bs
     private String bulletType; //Task, Event, Note
     private String text;
     private Date date;
