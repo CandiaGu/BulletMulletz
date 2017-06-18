@@ -10,7 +10,7 @@ public class Bullet {
     private String text;
     private String bullet_type;
 
-    public Bullet(String bullet_type, Date date, String text){
+    public Bullet(String newBulletType, Date newDate, String newText){
         //do stuff
     }
 
