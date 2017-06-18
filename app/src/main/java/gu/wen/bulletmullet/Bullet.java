@@ -6,12 +6,15 @@ import java.util.*;
 
 public class Bullet {
     private String dbName = "bulletDb"; //or whatever you need to access bs
-    private String type; //Task, Event, Note
+    private String bulletType; //Task, Event, Note
     private String text;
-    private String bullet_type;
+    private Date date;
 
     public Bullet(String newBulletType, Date newDate, String newText){
         //do stuff
+        bulletType = newBulletType;
+        date = newDate;
+        text = newText;
     }
 
     private String getDbName(){
