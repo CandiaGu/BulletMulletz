@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">BulletMullet</string>
     <string name="weeklylog">Weekly Log</string>
+
+    <string name="mon">Monday</string>
+    <string name="tues">Tuesday</string>
+    <string name="wed">Wednesday</string>
+    <string name="thurs">Thursday</string>
+    <string name="fri">Friday</string>
+
 </resources>
