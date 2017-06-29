@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.View.OnKeyListener;
 import android.widget.EditText;
 import android.widget.Toast;
+import java.util.*;
+
 
 public class WeeklyActivity extends AppCompatActivity {
     private EditText edittext;
@@ -14,7 +16,13 @@ public class WeeklyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weekly);
-        addKeyListener();
+        addDaysoftheWeek();
+        //addKeyListener();
+    }
+
+    public void addDaysoftheWeek(){
+        DayEntry day1 = new DayEntry(new Date());
+
     }
     public void addKeyListener() {
         // get edittext component
