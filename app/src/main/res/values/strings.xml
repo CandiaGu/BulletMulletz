@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BulletMullet</string>
+    <string name="weeklylog">Weekly Log</string>
 </resources>
