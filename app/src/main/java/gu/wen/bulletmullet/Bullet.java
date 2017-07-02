@@ -33,10 +33,8 @@ public class Bullet {
         // we are using ContentValues to avoid sql format errors
 
         ContentValues contentValues = new ContentValues();
-
-        //contentValues.put(PERSON_TABLE_COLUMN_NAME, aPersonName);
-        //contentValues.put(PERSON_TABLE_COLUMN_PIN, aPersonPin);
-
+        contentValues.put("type",bulletType);
+        contentValues.put("text","TEXT");
         db.insert(DATABASE_TABLE, null, contentValues);
     }
 
@@ -51,8 +49,10 @@ public class Bullet {
         @Override
         public void onCreate(SQLiteDatabase db)
         {
+            // create database helper
+            // primary key, bullet_type text, date, actual_text text
             String buildSQL = "CREATE TABLE " + DATABASE_TABLE+ "( id INTEGER PRIMARY KEY, type TEXT " +
-                    "date DATE,  text  TEXT )";
+                    "date DATE,  text  TEXT, order INTEGER)";
             db.execSQL(buildSQL);
         }
 
@@ -63,7 +63,7 @@ public class Bullet {
             Log.w(TAG, "Upgrading database from version " + oldVersion
                     + " to "
                     + newVersion + ", which will destroy all old data");
-            db.execSQL("DROP TABLE IF EXISTS productdet");
+            db.execSQL("DROP TABLE IF EXISTS "+DATABASE_TABLE);
             onCreate(db);
         }
     }
