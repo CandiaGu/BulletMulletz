@@ -13,8 +13,8 @@ import static org.junit.Assert.assertTrue;
 public class DayEntryTests {
     @Test
     public void addEventsToDayEntry() {
-        DayEntry d = new DayEntry(new Date());
-        d.addBullet("event","9 am HELLO");
-        d.getEventsList();
+        DayEntry d = new DayEntry(InstrumentationRegistry.getTargetContext(),new Date());
+        //d.addBullet("event","9 am HELLO");
+        //d.getEventsList();
     }
 }

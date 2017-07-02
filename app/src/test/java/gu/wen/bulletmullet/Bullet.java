@@ -9,6 +9,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.app.Service;
 
 /**
  * Created by angelwen on 6/18/17.
@@ -25,12 +26,13 @@ public class Bullet {
     private DatabaseHelper DBHelper;
     private SQLiteDatabase db;
 
-    public Bullet(Date newDate){
+    public Bullet(Context ctx, Date newDate){
         date = newDate;
+        DBHelper = new DatabaseHelper(ctx);
         db = DBHelper.getWritableDatabase();
     }
     /** add whatever bullet to the table in the database **/
-    public void addBullet(String bulletType, String text,Date date){//Task, Event, Note
+    public void addBullet(String bulletType, String text){//Task, Event, Note
 
         DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
         String dayStr = df.format(date);
@@ -42,9 +44,9 @@ public class Bullet {
         contentValues.put("date",dayStr);
         db.insert(DATABASE_TABLE, null, contentValues);
     }
-    public String getEventsList(Date day){
+    public String getEventsList(){
         DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-        String dayStr = df.format(day);
+        String dayStr = df.format(date);
         String[] columns = {DATABASE_TABLE,"event",dayStr};
 
         Cursor c = db.rawQuery("SELECT * FROM ? WHERE type = ? AND date = ?",columns);
