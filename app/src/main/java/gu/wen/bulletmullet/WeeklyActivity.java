@@ -9,14 +9,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class WeeklyActivity extends AppCompatActivity {
-    private EditText edittext;
+    //private EditText edittext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weekly);
-        addKeyListener();
+       // addKeyListener();
     }
-    public void addKeyListener() {
+    /*public void addKeyListener() {
         // get edittext component
         edittext = (EditText) findViewById(R.id.editText);
 
@@ -45,6 +45,6 @@ public class WeeklyActivity extends AppCompatActivity {
                 return false;
             }
         });
-    }
+    }*/
 }
 
