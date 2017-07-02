@@ -6,7 +6,7 @@ import java.util.*;
 
 public interface DayEntryInterface {
 
-    /**adds a bullet with the type bullet Type and the text in text
+    /**adds a bullet with the type bullet Type (event, to-do (without the dash), note) and the text in text
      * to the day**/
     public void addBullet(String bulletType, String text);
 

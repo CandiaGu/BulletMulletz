@@ -1,5 +1,7 @@
 package gu.wen.bulletmullet;
 import java.util.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -28,14 +30,27 @@ public class Bullet {
         db = DBHelper.getWritableDatabase();
     }
     /** add whatever bullet to the table in the database **/
-    public void addBullet(String bulletType, String text){//Task, Event, Note
+    public void addBullet(String bulletType, String text,Date date){//Task, Event, Note
+
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+        String dayStr = df.format(date);
 
         // we are using ContentValues to avoid sql format errors
-
         ContentValues contentValues = new ContentValues();
         contentValues.put("type",bulletType);
-        contentValues.put("text","TEXT");
+        contentValues.put("content","TEXT");
+        contentValues.put("date",dayStr);
         db.insert(DATABASE_TABLE, null, contentValues);
+    }
+    public String getEventsList(Date day){
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+        String dayStr = df.format(day);
+        String[] columns = {DATABASE_TABLE,"event",dayStr};
+
+        Cursor c = db.rawQuery("SELECT * FROM ? WHERE type = ? AND date = ?",columns);
+        String str = c.getString(c.getColumnIndex("content"));
+        System.out.println(str);
+        return "";
     }
 
 
@@ -52,7 +67,7 @@ public class Bullet {
             // create database helper
             // primary key, bullet_type text, date, actual_text text
             String buildSQL = "CREATE TABLE " + DATABASE_TABLE+ "( id INTEGER PRIMARY KEY, type TEXT " +
-                    "date DATE,  text  TEXT, order INTEGER)";
+                    "date DATE,  content  TEXT, order INTEGER)";
             db.execSQL(buildSQL);
         }
 

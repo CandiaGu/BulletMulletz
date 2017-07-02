@@ -15,13 +15,15 @@ public class DayEntry implements DayEntryInterface{
 
     /**called the addBullet method in Bullet**/
     public void addBullet(String bulletType, String text){
-        bullet.addBullet(bulletType, text);
+        bullet.addBullet(bulletType, text,date);
     }
 
     public void reorderBullet(int prev_pos, int new_pos){
 
     }
+
     public LinkedList<String> getEventsList(){
+        bullet.getEventsList(date);
         return null;
     }
     public LinkedList<String> getTodoList(){
