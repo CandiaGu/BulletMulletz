@@ -43,8 +43,8 @@ public class WeeklyActivity extends AppCompatActivity {
                     DayEntry d = new DayEntry(context,Calendar.getInstance().getTime());
                     d.addBullet("event","hello this is an event");
                     d.addBullet("todo","todododododo");
-                    d.addBullet("task","hello do this task");
-                    LinkedList<String> events = d.getEventsList();
+                    d.addBullet("note","hello do this NOTE");
+                    LinkedList<String> events = d.getNotesList();
                     Iterator itr = events.iterator();
                     String events_str = "";
                     while (itr.hasNext()){
