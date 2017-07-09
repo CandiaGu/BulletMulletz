@@ -20,7 +20,7 @@ import android.app.Service;
 
 public class Bullet {
     private Date date;
-
+    private String dayStr;
     private static final String DATABASE_NAME = "bulletJournalDB3";
     private static final String DATABASE_TABLE = "bullets_table"; //or whatever you need to access bs
     private static final int DATABASE_VERSION = 1;
@@ -30,37 +30,38 @@ public class Bullet {
 
     public Bullet(Context ctx, Date newDate){
         date = newDate;
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+        dayStr = df.format(date);
         DBHelper = new DatabaseHelper(ctx);
         db = DBHelper.getWritableDatabase();
     }
     /** add whatever bullet to the table in the database **/
     public void addBullet(String bulletType, String text){//Task, Event, Note
+        int position = 0;
+        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE+" WHERE type = '"+bulletType+"' AND day = '"+dayStr+"'", null);
+        position = c.getCount();
 
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-        String dayStr = df.format(date);
-        System.out.println("hello?");
         // we are using ContentValues to avoid sql format errors
         ContentValues contentValues = new ContentValues();
         contentValues.put("type",bulletType);
         contentValues.put("content",text);
         contentValues.put("day",dayStr);
-
+        contentValues.put("pos",position);
         db.insert(DATABASE_TABLE, null, contentValues);
         System.out.println("HEYYY");
     }
     public LinkedList<String> getBulletList(String type){
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-        String dayStr = df.format(date);
-        //System.out.println(dayStr);
         //String[] columns = {DATABASE_TABLE,dayStr};
 
-        Cursor c = db.rawQuery("SELECT * FROM bullets_table WHERE type = '"+type+"' AND day = '"+dayStr+"'", null);
+        Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE+" WHERE type = '"+type+"' AND day = '"+dayStr+"'", null);
 
         LinkedList<String> l = new LinkedList<String>();
         if (c.moveToFirst()){
             do {
                 String str = c.getString(c.getColumnIndex("content"));
                 System.out.println(str);
+                int position = c.getInt(c.getColumnIndex("pos"));
+                System.out.println(position);
                 l.add(str);
             }while(c.moveToNext());
         }

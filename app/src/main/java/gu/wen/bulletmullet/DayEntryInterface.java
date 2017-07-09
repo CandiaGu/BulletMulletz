@@ -10,15 +10,18 @@ public interface DayEntryInterface {
      * to the day**/
     public void addBullet(String bulletType, String text);
 
+    /**deletes bullet with that specification **/
+    public void deleteBullet(String bulletType, String text);
+
     /**puts a bullet in the prev position into the new position**/
-    public void reorderBullet(int prev_pos, int new_pos);
+    public void reorderBullet(String bulletType, int prev_pos, int new_pos);
 
     /** returns a list of the events (things with times) to show**/
-    public String getEventsList();
+    public LinkedList<String> getEventsList();
 
     /** returns a list of todos to show**/
-    public String getTodoList();
+    public LinkedList<String> getTodoList();
 
     /** returns a list of notes to show**/
-    public String getNotesList();
+    public LinkedList<String> getNotesList();
 }

@@ -44,12 +44,16 @@ public class WeeklyActivity extends AppCompatActivity {
 
                 } else if ((event.getAction() == KeyEvent.ACTION_DOWN)
                         && (keyCode == KeyEvent.KEYCODE_9)) {
-
-                    String str = d.getNotesList();
+                    LinkedList<String> events = d.getNotesList();
+                    Iterator itr = events.iterator();
+                    String events_str = "";
+                    while (itr.hasNext()){
+                        events_str = events_str +itr.next()+"\n";
+                    }
 
                     // display a floating message
                     Toast.makeText(WeeklyActivity.this,
-                            str, Toast.LENGTH_LONG).show();
+                            events_str, Toast.LENGTH_LONG).show();
                     return true;
                 }
 

@@ -23,35 +23,18 @@ public class DayEntry implements DayEntryInterface{
         System.out.println("should delete bullet in the future");
     }
 
-    public void reorderBullet(int prev_pos, int new_pos){
+    public void reorderBullet(String bulletType, int prev_pos, int new_pos){
 
     }
 
-    public String getEventsList(){
-        LinkedList<String> events = bullet.getBulletList("event");
-        Iterator itr = events.iterator();
-        String events_str = "";
-        while (itr.hasNext()){
-            events_str = events_str +itr.next()+"\n";
-        }
-        return events_str;
+    public LinkedList<String> getEventsList(){
+        return bullet.getBulletList("event");
     }
-    public String getTodoList() {
-        LinkedList<String> events = bullet.getBulletList("todo");
-        Iterator itr = events.iterator();
-        String events_str = "";
-        while (itr.hasNext()){
-            events_str = events_str +itr.next()+"\n";
-        }
-        return events_str;
+    public LinkedList<String> getTodoList() {
+        return bullet.getBulletList("todo");
+
     }
-    public String getNotesList(){
-        LinkedList<String> events = bullet.getBulletList("note");
-        Iterator itr = events.iterator();
-        String events_str = "";
-        while (itr.hasNext()){
-            events_str = events_str +itr.next()+"\n";
-        }
-        return events_str;
+    public LinkedList<String> getNotesList(){
+        return bullet.getBulletList("note");
     }
 }
