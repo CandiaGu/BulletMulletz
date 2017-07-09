@@ -44,6 +44,7 @@ public class Bullet {
         contentValues.put("type",bulletType);
         contentValues.put("content",text);
         contentValues.put("day",dayStr);
+
         db.insert(DATABASE_TABLE, null, contentValues);
         System.out.println("HEYYY");
     }

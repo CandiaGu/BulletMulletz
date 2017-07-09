@@ -13,12 +13,12 @@ public interface DayEntryInterface {
     /**puts a bullet in the prev position into the new position**/
     public void reorderBullet(int prev_pos, int new_pos);
 
-    /** returns a linked list of the events (things with times) to show**/
-    public LinkedList<String> getEventsList();
+    /** returns a list of the events (things with times) to show**/
+    public String getEventsList();
 
-    /** returns a linked list of todos to show**/
-    public LinkedList<String> getTodoList();
+    /** returns a list of todos to show**/
+    public String getTodoList();
 
-    /** returns a linked list of notes to show**/
-    public LinkedList<String> getNotesList();
+    /** returns a list of notes to show**/
+    public String getNotesList();
 }

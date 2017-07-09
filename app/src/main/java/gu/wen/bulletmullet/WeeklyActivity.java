@@ -44,15 +44,11 @@ public class WeeklyActivity extends AppCompatActivity {
                     d.addBullet("event","hello this is an event");
                     d.addBullet("todo","todododododo");
                     d.addBullet("note","hello do this NOTE");
-                    LinkedList<String> events = d.getNotesList();
-                    Iterator itr = events.iterator();
-                    String events_str = "";
-                    while (itr.hasNext()){
-                        events_str = events_str +itr.next()+"\n";
-                    }
+                    String str = d.getNotesList();
+
                     // display a floating message
                     Toast.makeText(WeeklyActivity.this,
-                            events_str, Toast.LENGTH_LONG).show();
+                            str, Toast.LENGTH_LONG).show();
                     return true;
                 }
 

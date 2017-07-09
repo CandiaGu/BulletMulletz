@@ -27,13 +27,31 @@ public class DayEntry implements DayEntryInterface{
 
     }
 
-    public LinkedList<String> getEventsList(){
-        return bullet.getBulletList("event");
+    public String getEventsList(){
+        LinkedList<String> events = bullet.getBulletList("event");
+        Iterator itr = events.iterator();
+        String events_str = "";
+        while (itr.hasNext()){
+            events_str = events_str +itr.next()+"\n";
+        }
+        return events_str;
     }
-    public LinkedList<String> getTodoList() {
-        return bullet.getBulletList("todo");
+    public String getTodoList() {
+        LinkedList<String> events = bullet.getBulletList("todo");
+        Iterator itr = events.iterator();
+        String events_str = "";
+        while (itr.hasNext()){
+            events_str = events_str +itr.next()+"\n";
+        }
+        return events_str;
     }
-    public LinkedList<String> getNotesList(){
-        return bullet.getBulletList("note");
+    public String getNotesList(){
+        LinkedList<String> events = bullet.getBulletList("note");
+        Iterator itr = events.iterator();
+        String events_str = "";
+        while (itr.hasNext()){
+            events_str = events_str +itr.next()+"\n";
+        }
+        return events_str;
     }
 }
