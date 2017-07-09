@@ -14,12 +14,14 @@ import java.util.*;
 public class WeeklyActivity extends AppCompatActivity {
     private EditText edittext;
     private static Context context;
+    private static DayEntry d;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weekly);
         addKeyListener();
         context = getApplicationContext();
+        d = new DayEntry(context,Calendar.getInstance().getTime());
     }
     public void addKeyListener() {
         // get edittext component
@@ -32,7 +34,9 @@ public class WeeklyActivity extends AppCompatActivity {
                 // if keydown and "enter" is pressed
                 if ((event.getAction() == KeyEvent.ACTION_DOWN)
                         && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-
+                    d.addBullet("event",edittext.getText().toString());
+                    d.addBullet("todo",edittext.getText().toString());
+                    d.addBullet("note",edittext.getText().toString());
                     // display a floating message
                     Toast.makeText(WeeklyActivity.this,
                             edittext.getText(), Toast.LENGTH_LONG).show();
@@ -40,10 +44,7 @@ public class WeeklyActivity extends AppCompatActivity {
 
                 } else if ((event.getAction() == KeyEvent.ACTION_DOWN)
                         && (keyCode == KeyEvent.KEYCODE_9)) {
-                    DayEntry d = new DayEntry(context,Calendar.getInstance().getTime());
-                    d.addBullet("event","hello this is an event");
-                    d.addBullet("todo","todododododo");
-                    d.addBullet("note","hello do this NOTE");
+
                     String str = d.getNotesList();
 
                     // display a floating message
