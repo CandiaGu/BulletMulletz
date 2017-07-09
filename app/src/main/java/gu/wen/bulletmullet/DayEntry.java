@@ -7,11 +7,11 @@ import android.content.Context;
 
 public class DayEntry implements DayEntryInterface{
     private Date date;
-    private Bullet bullet;
+    private BulletWorker bullet;
 
     public DayEntry(Context ctx, Date newDate){
         date = newDate;
-        bullet = new Bullet(ctx,newDate);
+        bullet = new BulletWorker(ctx,newDate);
     }
 
     /**called the addBullet method in Bullet**/
@@ -24,17 +24,17 @@ public class DayEntry implements DayEntryInterface{
     }
 
     public void reorderBullet(String bulletType, int prev_pos, int new_pos){
-
+        bullet.reorderBullet(bulletType, prev_pos, new_pos);
     }
 
-    public LinkedList<String> getEventsList(){
+    public LinkedList<BulletItem> getEventsList(){
         return bullet.getBulletList("event");
     }
-    public LinkedList<String> getTodoList() {
+    public LinkedList<BulletItem> getTodoList() {
         return bullet.getBulletList("todo");
 
     }
-    public LinkedList<String> getNotesList(){
+    public LinkedList<BulletItem> getNotesList(){
         return bullet.getBulletList("note");
     }
 }

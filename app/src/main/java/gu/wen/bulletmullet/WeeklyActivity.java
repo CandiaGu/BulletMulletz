@@ -44,11 +44,29 @@ public class WeeklyActivity extends AppCompatActivity {
 
                 } else if ((event.getAction() == KeyEvent.ACTION_DOWN)
                         && (keyCode == KeyEvent.KEYCODE_9)) {
-                    LinkedList<String> events = d.getNotesList();
+                    LinkedList<BulletItem> events = d.getNotesList();
                     Iterator itr = events.iterator();
                     String events_str = "";
+                    BulletItem curr;
                     while (itr.hasNext()){
-                        events_str = events_str +itr.next()+"\n";
+                        curr = (BulletItem)itr.next();
+                        events_str = events_str +curr.toString()+curr.getPosition()+"\n";
+                    }
+
+                    // display a floating message
+                    Toast.makeText(WeeklyActivity.this,
+                            events_str, Toast.LENGTH_LONG).show();
+                    return true;
+                }else if ((event.getAction() == KeyEvent.ACTION_DOWN)
+                        && (keyCode == KeyEvent.KEYCODE_8)) {
+                    d.reorderBullet("note",0,3);
+                    LinkedList<BulletItem> events = d.getNotesList();
+                    Iterator itr = events.iterator();
+                    String events_str = "";
+                    BulletItem curr;
+                    while (itr.hasNext()){
+                        curr = (BulletItem)itr.next();
+                        events_str = events_str +curr.toString()+curr.getPosition()+"\n";
                     }
 
                     // display a floating message

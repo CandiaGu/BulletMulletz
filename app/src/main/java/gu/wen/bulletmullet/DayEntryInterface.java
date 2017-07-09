@@ -17,11 +17,11 @@ public interface DayEntryInterface {
     public void reorderBullet(String bulletType, int prev_pos, int new_pos);
 
     /** returns a list of the events (things with times) to show**/
-    public LinkedList<String> getEventsList();
+    public LinkedList<BulletItem> getEventsList();
 
     /** returns a list of todos to show**/
-    public LinkedList<String> getTodoList();
+    public LinkedList<BulletItem> getTodoList();
 
     /** returns a list of notes to show**/
-    public LinkedList<String> getNotesList();
+    public LinkedList<BulletItem> getNotesList();
 }
