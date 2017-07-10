@@ -1,6 +1,10 @@
 package gu.wen.bulletmullet;
 
+
 import android.database.sqlite.SQLiteDatabase;
+
+//import android.content.Context;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.*;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -28,6 +33,7 @@ public class WeeklyActivity extends AppCompatActivity {
 
     Button button;
     EditText addTask;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +61,10 @@ public class WeeklyActivity extends AppCompatActivity {
 
         initiateDayEntries();
 
-        LinkedList<String> toDoList = dayEntries[0].getTodoList();
-        String[] myDataset =toDoList.toArray(new String[toDoList.size()]);
+        //LinkedList<String> toDoList = dayEntries[0].getTodoList();
+        //String[] myDataset =toDoList.toArray(new String[toDoList.size()]);
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(myDataset);
+        //mAdapter = new MyAdapter(myDataset);
         mRecyclerView.setAdapter(mAdapter);
 
     }
@@ -74,7 +80,7 @@ public class WeeklyActivity extends AppCompatActivity {
         cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
         for(int i = 0; i < 7; i++){
             cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek()+i);
-            dayEntries[i] = new DayEntry(cal.getTime());
+            //dayEntries[i] = new DayEntry(cal.getTime());
         }
 
     }
@@ -84,6 +90,7 @@ public class WeeklyActivity extends AppCompatActivity {
         addTask.setVisibility(View.VISIBLE);
         //create make edittext visible
         //add new bullet
+
 
     }
 

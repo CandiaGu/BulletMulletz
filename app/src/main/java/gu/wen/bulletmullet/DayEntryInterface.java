@@ -6,19 +6,22 @@ import java.util.*;
 
 public interface DayEntryInterface {
 
-    /**adds a bullet with the type bullet Type and the text in text
+    /**adds a bullet with the type bullet Type (event, to-do (without the dash), note) and the text in text
      * to the day**/
     public void addBullet(String bulletType, String text);
 
+    /**deletes bullet with that specification **/
+    public void deleteBullet(String bulletType, String text);
+
     /**puts a bullet in the prev position into the new position**/
-    public void reorderBullet(int prev_pos, int new_pos);
+    public void reorderBullet(String bulletType, int prev_pos, int new_pos);
 
-    /** returns a linked list of the events (things with times) to show**/
-    public LinkedList<String> getEventsList();
+    /** returns a list of the events (things with times) to show**/
+    public LinkedList<BulletItem> getEventsList();
 
-    /** returns a linked list of todos to show**/
-    public LinkedList<String> getTodoList();
+    /** returns a list of todos to show**/
+    public LinkedList<BulletItem> getTodoList();
 
-    /** returns a linked list of notes to show**/
-    public LinkedList<String> getNotesList();
+    /** returns a list of notes to show**/
+    public LinkedList<BulletItem> getNotesList();
 }
