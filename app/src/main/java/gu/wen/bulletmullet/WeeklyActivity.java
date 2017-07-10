@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,18 +18,27 @@ import java.util.LinkedList;
 
 public class WeeklyActivity extends AppCompatActivity {
     //private EditText edittext;
+    private static final String TAG = "WeeklyActivity";
+
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     public DayEntry[] dayEntries;
 
+    Button button;
+    EditText addTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weekly);
         setRecyclerView();
+
+        Log.d(TAG, "onCreate()");
+
+        addTask = (EditText) findViewById(R.id.add_task);
+        addTask.setVisibility(View.GONE);
 
         
     }
@@ -70,7 +80,10 @@ public class WeeklyActivity extends AppCompatActivity {
     }
     public void addTask(View view){
         View parent = (View) view.getParent();
-
+        button = (Button) findViewById(R.id.add_task_button);
+        addTask.setVisibility(View.VISIBLE);
+        //create make edittext visible
+        //add new bullet
 
     }
 
