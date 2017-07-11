@@ -3,7 +3,7 @@ package gu.wen.bulletmullet;
 
 import android.database.sqlite.SQLiteDatabase;
 
-//import android.content.Context;
+import android.content.Context;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -63,8 +63,12 @@ public class WeeklyActivity extends AppCompatActivity {
 
         //LinkedList<String> toDoList = dayEntries[0].getTodoList();
         //String[] myDataset =toDoList.toArray(new String[toDoList.size()]);
+        List<String> input = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            input.add("Test" + i);
+        }
         // specify an adapter (see also next example)
-        //mAdapter = new MyAdapter(myDataset);
+        mAdapter = new MyAdapter(input);
         mRecyclerView.setAdapter(mAdapter);
 
     }
