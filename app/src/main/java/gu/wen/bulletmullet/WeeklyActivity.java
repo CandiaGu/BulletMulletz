@@ -33,7 +33,7 @@ public class WeeklyActivity extends AppCompatActivity {
 
     Button button;
     EditText addTask;
-
+    private static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,9 @@ public class WeeklyActivity extends AppCompatActivity {
         setRecyclerView();
 
         Log.d(TAG, "onCreate()");
+
+        context = getApplicationContext();
+        initiateDayEntries();
 
         addTask = (EditText) findViewById(R.id.add_task);
         addTask.setVisibility(View.GONE);
@@ -59,16 +62,15 @@ public class WeeklyActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        initiateDayEntries();
 
         //LinkedList<String> toDoList = dayEntries[0].getTodoList();
-        //String[] myDataset =toDoList.toArray(new String[toDoList.size()]);
-        List<String> input = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            input.add("Test" + i);
-        }
+        LinkedList<BulletItem> myDataset = dayEntries[0].getTodoList();
+        //List<String> input = new ArrayList<>();
+//        for (int i = 0; i < 5; i++) {
+//            input.add("Test" + i);
+//        }
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(input);
+        mAdapter = new MyAdapter(myDataset);
         mRecyclerView.setAdapter(mAdapter);
 
     }
@@ -84,16 +86,21 @@ public class WeeklyActivity extends AppCompatActivity {
         cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
         for(int i = 0; i < 7; i++){
             cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek()+i);
-            //dayEntries[i] = new DayEntry(cal.getTime());
+            dayEntries[i] = new DayEntry(context, cal.getTime());
         }
 
     }
     public void addTask(View view){
         View parent = (View) view.getParent();
         button = (Button) findViewById(R.id.add_task_button);
+
+        //make edittext visible
         addTask.setVisibility(View.VISIBLE);
         //create make edittext visible
         //add new bullet
+        String task = String.valueOf(addTask.getText());
+        Log.d(TAG, "Task to add: " + task);
+        dayEntries[0].addBullet("todo",task);
 
 
     }

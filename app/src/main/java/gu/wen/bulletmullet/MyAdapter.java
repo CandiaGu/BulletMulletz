@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -13,7 +14,13 @@ import java.util.List;
  */
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-    private List<String> mDataset;
+    private LinkedList<BulletItem> mDataset;
+
+
+    // Provide a suitable constructor (depends on the kind of dataset)
+    public MyAdapter(LinkedList<BulletItem> myDataset) {
+        mDataset = myDataset;
+    }
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -29,14 +36,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             mTextView = (TextView) v.findViewById(R.id.task_content);
         }
     }
-    public void add(int position, String item) {
-        mDataset.add(position, item);
-        notifyItemInserted(position);
-    }
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(List<String> myDataset) {
-        mDataset = myDataset;
-    }
+//    public void add(int position, BulletItem) {
+//        mDataset.add(position, item);
+//        notifyItemInserted(position);
+//    }
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -56,7 +59,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset.get(position));
+        holder.mTextView.setText(mDataset.get(position).toString());
 
     }
 
