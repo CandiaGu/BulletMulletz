@@ -1,8 +1,5 @@
-package gu.wen.bulletmullet;
+package gu.wen.bulletmullet.activities;
 
-
-import android.content.DialogInterface;
-import android.database.sqlite.SQLiteDatabase;
 
 import android.content.Context;
 
@@ -16,11 +13,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.util.*;
 
 import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
+
+import gu.wen.bulletmullet.adapters.MyAdapter;
+import gu.wen.bulletmullet.R;
+import gu.wen.bulletmullet.data.DayEntry;
 
 public class WeeklyActivity extends AppCompatActivity {
     //private EditText edittext;

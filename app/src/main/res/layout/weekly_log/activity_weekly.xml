@@ -11,7 +11,7 @@
     android:id="@+id/activity_weekly"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="gu.wen.bulletmullet.WeeklyActivity">
+    tools:context="gu.wen.bulletmullet.activities.WeeklyActivity">
 
     <TextView
         android:id="@+id/textView2"

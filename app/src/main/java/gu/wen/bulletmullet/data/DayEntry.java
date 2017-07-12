@@ -1,11 +1,14 @@
-package gu.wen.bulletmullet;
+package gu.wen.bulletmullet.data;
 import java.util.*;
 import android.content.Context;
+
+import gu.wen.bulletmullet.interfaces.DayEntryInterface;
+
 /**
  * Created by angelwen on 6/18/17.
  */
 
-public class DayEntry implements DayEntryInterface{
+public class DayEntry implements DayEntryInterface {
     private Date date;
     private BulletWorker bullet;
 

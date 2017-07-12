@@ -1,4 +1,4 @@
-package gu.wen.bulletmullet;
+package gu.wen.bulletmullet.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -7,17 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.LinkedList;
+import gu.wen.bulletmullet.R;
+import gu.wen.bulletmullet.data.DayEntry;
 
 /**
  * Created by candiagu on 7/6/17.
  */
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class DayEntryAdapter extends RecyclerView.Adapter<DayEntryAdapter.ViewHolder> {
     private DayEntry dayEntry;
 
+
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(DayEntry myDataset) {
+    public DayEntryAdapter(DayEntry myDataset) {
         dayEntry = myDataset;
     }
 
@@ -47,7 +49,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     // Create new views (invoked by the layout manager)
     @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public DayEntryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
