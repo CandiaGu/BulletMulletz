@@ -1,6 +1,7 @@
 package gu.wen.bulletmullet;
 
 
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 
 import android.content.Context;
@@ -26,28 +27,31 @@ public class WeeklyActivity extends AppCompatActivity {
     private static final String TAG = "WeeklyActivity";
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private MyAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    public DayEntry[] dayEntries;
+    public DayEntry[] dayEntries = new DayEntry[7];
 
     Button button;
-    EditText addTask;
+    EditText add_task;
     private static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weekly);
-        setRecyclerView();
+
 
         Log.d(TAG, "onCreate()");
 
         context = getApplicationContext();
         initiateDayEntries();
+        setRecyclerView();
+        add_task = (EditText) findViewById(R.id.add_task);
+        add_task.setVisibility(View.GONE);
 
-        addTask = (EditText) findViewById(R.id.add_task);
-        addTask.setVisibility(View.GONE);
+        addKeyListener();
 
         
     }
@@ -63,15 +67,41 @@ public class WeeklyActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
-        //LinkedList<String> toDoList = dayEntries[0].getTodoList();
-        LinkedList<BulletItem> myDataset = dayEntries[0].getTodoList();
-        //List<String> input = new ArrayList<>();
-//        for (int i = 0; i < 5; i++) {
-//            input.add("Test" + i);
-//        }
-        // specify an adapter (see also next example)
+        DayEntry myDataset = dayEntries[0];
+
+        // specify an adapter - used to update recyclerview
         mAdapter = new MyAdapter(myDataset);
         mRecyclerView.setAdapter(mAdapter);
+
+    }
+
+    public void addKeyListener(){
+        //add new bullet
+        ///Log.d(TAG, "Task to add: " + task);
+        final DayEntry d = dayEntries[0];
+
+        add_task.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                // if keydown and "enter" is pressed
+                if ((event.getAction() == KeyEvent.ACTION_DOWN)
+                        && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    String task = String.valueOf(add_task.getText());
+                    if(task!="")
+                        mAdapter.add("todo", task);
+                    // display a floating message
+                    Toast.makeText(WeeklyActivity.this,
+                            add_task.getText(), Toast.LENGTH_LONG).show();
+                    //make edittext invisible and empty
+                    add_task.setVisibility(View.GONE);
+                    add_task.setText("");
+                    return true;
+
+                }
+                return false;
+            }
+
+        });
 
     }
     //initiates the day entries for the current week, starting with monday of this week
@@ -95,12 +125,13 @@ public class WeeklyActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.add_task_button);
 
         //make edittext visible
-        addTask.setVisibility(View.VISIBLE);
+        add_task.setVisibility(View.VISIBLE);
         //create make edittext visible
-        //add new bullet
-        String task = String.valueOf(addTask.getText());
-        Log.d(TAG, "Task to add: " + task);
-        dayEntries[0].addBullet("todo",task);
+    }
+    public void deleteTask(View view){
+        View parent = (View) view.getParent();
+        TextView taskTextView = (TextView) parent.findViewById(R.id.task_delete);
+        //mAdapter.delete
 
 
     }

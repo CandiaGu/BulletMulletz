@@ -8,8 +8,8 @@
         android:id="@+id/task_delete"
         android:layout_height="wrap_content"
         android:layout_width="50dp"
-        android:text="+"
-        android:onClick="addTask"
+        android:text="-"
+        android:onClick="removeTask"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_marginRight="16dp"/>

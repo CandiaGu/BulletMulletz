@@ -1,25 +1,24 @@
 package gu.wen.bulletmullet;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by candiagu on 7/6/17.
  */
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-    private LinkedList<BulletItem> mDataset;
-
+    private DayEntry dayEntry;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(LinkedList<BulletItem> myDataset) {
-        mDataset = myDataset;
+    public MyAdapter(DayEntry myDataset) {
+        dayEntry = myDataset;
     }
 
     // Provide a reference to the views for each data item
@@ -36,10 +35,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             mTextView = (TextView) v.findViewById(R.id.task_content);
         }
     }
-//    public void add(int position, BulletItem) {
-//        mDataset.add(position, item);
-//        notifyItemInserted(position);
-//    }
+
+    public void add(String bulletType, String text) {
+        dayEntry.addBullet(bulletType, text);
+        //System.out.print("text:" + text);
+        Log.d("todo", dayEntry.getTodoList().toString());
+        //last position
+        int pos = getItemCount();
+        notifyItemInserted(pos-1);
+    }
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -59,13 +63,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset.get(position).toString());
+        holder.mTextView.setText(dayEntry.getTodoList().get(position).toString());
 
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return dayEntry.getTodoList().size();
     }
 }
