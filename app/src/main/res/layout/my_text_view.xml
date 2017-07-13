@@ -12,17 +12,22 @@
         android:onClick="removeTask"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginRight="16dp"/>
+        android:layout_marginRight="16dp">
+
+
+
+    </Button>
+
     <TextView
         android:id="@+id/task_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello"
-        android:textSize="20sp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/task_delete"
-        android:layout_marginRight="16dp"/>
+        android:textSize="12sp"
+        android:layout_marginRight="16dp"
+        android:layout_alignBaseline="@+id/task_delete"
+        android:layout_alignBottom="@+id/task_delete"
+        android:layout_toEndOf="@+id/task_delete" />
 
 
 

@@ -45,6 +45,8 @@ public class DayEntryAdapter extends RecyclerView.Adapter<DayEntryAdapter.ViewHo
         //last position
         int pos = getItemCount();
         notifyItemInserted(pos-1);
+
+
     }
 
     // Create new views (invoked by the layout manager)

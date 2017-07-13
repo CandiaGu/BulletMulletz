@@ -60,6 +60,7 @@
         android:layout_height="37dp"
         android:layout_width="208dp"
         android:inputType="text"
+        android:textSize="12sp"
         app:layout_constraintLeft_toRightOf="@+id/add_task_button"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="30dp"

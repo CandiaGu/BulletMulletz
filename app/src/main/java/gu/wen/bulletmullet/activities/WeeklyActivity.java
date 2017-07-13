@@ -3,6 +3,7 @@ package gu.wen.bulletmullet.activities;
 
 import android.content.Context;
 
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +17,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-import gu.wen.bulletmullet.adapters.MyAdapter;
+import gu.wen.bulletmullet.adapters.DayEntryAdapter;
 import gu.wen.bulletmullet.R;
 import gu.wen.bulletmullet.data.DayEntry;
 
@@ -25,7 +26,7 @@ public class WeeklyActivity extends AppCompatActivity {
     private static final String TAG = "WeeklyActivity";
 
     private RecyclerView mRecyclerView;
-    private MyAdapter mAdapter;
+    private DayEntryAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     public DayEntry[] dayEntries = new DayEntry[7];
@@ -68,7 +69,7 @@ public class WeeklyActivity extends AppCompatActivity {
         DayEntry myDataset = dayEntries[0];
 
         // specify an adapter - used to update recyclerview
-        mAdapter = new MyAdapter(myDataset);
+        mAdapter = new DayEntryAdapter(myDataset);
         mRecyclerView.setAdapter(mAdapter);
 
     }
@@ -93,6 +94,11 @@ public class WeeklyActivity extends AppCompatActivity {
                     //make edittext invisible and empty
                     add_task.setVisibility(View.GONE);
                     add_task.setText("");
+
+                    //adjusts recyclerview size
+                    ViewGroup.LayoutParams params=mRecyclerView.getLayoutParams();
+                    params.height= RecyclerView.LayoutParams.WRAP_CONTENT;
+                    mRecyclerView.setLayoutParams(params);
                     return true;
 
                 }
@@ -125,6 +131,12 @@ public class WeeklyActivity extends AppCompatActivity {
         //make edittext visible
         add_task.setVisibility(View.VISIBLE);
         //create make edittext visible
+
+        add_task.requestFocus();
+        add_task.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(),
+                SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN , 0, 0, 0));
+        add_task.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(),
+                SystemClock.uptimeMillis(), MotionEvent.ACTION_UP , 0, 0, 0));
     }
     public void deleteTask(View view){
         View parent = (View) view.getParent();
