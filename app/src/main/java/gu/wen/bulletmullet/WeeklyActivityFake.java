@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.*;
 
-public class WeeklyActivity extends AppCompatActivity {
+public class WeeklyActivityFake extends AppCompatActivity {
     private EditText edittext;
     private static Context context;
     private static DayEntry d;

@@ -1,17 +1,14 @@
-package gu.wen.bulletmullet;
+package gu.wen.bulletmullet.data;
 import java.util.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.concurrent.SynchronousQueue;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.app.Service;
 
 /**
  * Created by angelwen on 6/18/17.
@@ -76,7 +73,10 @@ public class BulletWorker {
     }
 
     public void deleteBullet(String type, String text){
-        db.delete(DATABASE_TABLE, "type" + "=? content "+"=?", new String[]{type,text});
+        db.delete(DATABASE_TABLE, "type" + "=? AND content "+"=? AND day"+"=?", new String[]{type,text,dayStr});
+    }
+    public void clearAllBullets(){
+        db.delete(DATABASE_TABLE, "day"+"=?", new String[]{dayStr});
     }
 
     public LinkedList<BulletItem> getBulletList(String type){

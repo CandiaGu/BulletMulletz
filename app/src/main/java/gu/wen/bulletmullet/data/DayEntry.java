@@ -1,13 +1,16 @@
-package gu.wen.bulletmullet;
+package gu.wen.bulletmullet.data;
 import java.util.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import android.content.Context;
+
+import gu.wen.bulletmullet.interfaces.DayEntryInterface;
+
 /**
  * Created by angelwen on 6/18/17.
  */
 
-public class DayEntry implements DayEntryInterface{
+public class DayEntry implements DayEntryInterface {
     private Date date;
     private BulletWorker bullet;
 
@@ -26,7 +29,7 @@ public class DayEntry implements DayEntryInterface{
         System.out.println("should delete bullet in the future");
     }
     public void clearAllBullets(){
-        System.out.println("TODO");
+        bullet.clearAllBullets();
     }
 
     public void reorderBullet(String bulletType, int prev_pos, int new_pos){

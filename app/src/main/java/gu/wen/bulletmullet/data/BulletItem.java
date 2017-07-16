@@ -1,4 +1,4 @@
-package gu.wen.bulletmullet;
+package gu.wen.bulletmullet.data;
 
 /**
  * Created by angelwen on 7/9/17.

@@ -1,5 +1,8 @@
-package gu.wen.bulletmullet;
+package gu.wen.bulletmullet.interfaces;
 import java.util.*;
+
+import gu.wen.bulletmullet.data.BulletItem;
+
 /**
  * Created by angelwen on 7/2/17.
  */
