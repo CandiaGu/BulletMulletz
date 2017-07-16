@@ -73,6 +73,11 @@ public class WeeklyActivity extends AppCompatActivity {
                     Toast.makeText(WeeklyActivity.this,
                             events_str, Toast.LENGTH_LONG).show();
                     return true;
+                }else if ((event.getAction() == KeyEvent.ACTION_DOWN)
+                        && (keyCode == KeyEvent.KEYCODE_7)) {
+                    d.deleteBullet("note","thing");
+
+                    return true;
                 }
 
                 return false;

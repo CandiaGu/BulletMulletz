@@ -35,25 +35,22 @@ public class BulletWorker {
         DBHelper = new DatabaseHelper(ctx);
         db = DBHelper.getWritableDatabase();
     }
+
     /** add whatever bullet to the table in the database **/
     public void addBullet(String type, String text){//Task, Event, Note
         Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE+" WHERE type = '"+type+"' AND day = '"+dayStr+"'", null);
         int position = c.getCount();
 
-        // we are using ContentValues to avoid sql format errors
         ContentValues contentValues = new ContentValues();
         contentValues.put("type",type);
         contentValues.put("content",text);
         contentValues.put("day",dayStr);
         contentValues.put("pos",position);
         db.insert(DATABASE_TABLE, null, contentValues);
-        System.out.println("HEYYY");
     }
+
     public void reorderBullet(String type, int prev_pos, int new_pos){
-        //change all of the positions for every bullet of that type for today
-        // change it in the database
         if (new_pos>prev_pos) {
-            System.out.println("IM HERE TRYING TO REORDER WHATS THE PORBLE");
             db.execSQL("UPDATE " + DATABASE_TABLE + " SET pos = -5 " +
                     "WHERE type = '" + type + "' AND day = '" + dayStr + "' " +
                     "AND pos = " + prev_pos);
@@ -64,8 +61,6 @@ public class BulletWorker {
             db.execSQL("UPDATE " + DATABASE_TABLE + " SET pos = " +new_pos+
                     " WHERE type = '" + type + "' AND day = '" + dayStr + "' " +
                     "AND pos = -5");
-
-            System.out.println("WHAT??");
         }
         else if (new_pos<prev_pos) {
             db.execSQL("UPDATE " + DATABASE_TABLE + " SET pos = -5 " +
@@ -78,11 +73,13 @@ public class BulletWorker {
                     " WHERE type = '" + type + "' AND day = '" + dayStr + "' " +
                     "AND pos = -5");
         }
-
     }
-    public LinkedList<BulletItem> getBulletList(String type){
-        //String[] columns = {DATABASE_TABLE,dayStr};
 
+    public void deleteBullet(String type, String text){
+        db.delete(DATABASE_TABLE, "type" + "=? content "+"=?", new String[]{type,text});
+    }
+
+    public LinkedList<BulletItem> getBulletList(String type){
         Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE+" WHERE type = '"+type+"' AND day = '"+dayStr+"'", null);
 
         OrderedList<BulletItem> l = new OrderedList<BulletItem>();
@@ -110,7 +107,6 @@ public class BulletWorker {
         {
             // create database helper
             // primary key, bullet_type text, date, actual_text text
-            System.out.println("OOPDASDASKJDAK WHY IS THERE NO DAY");
             String buildSQL = "CREATE TABLE " + DATABASE_TABLE+ "( id INTEGER PRIMARY KEY, day TEXT, type TEXT, content  TEXT, pos INTEGER)";
             db.execSQL(buildSQL);
         }
