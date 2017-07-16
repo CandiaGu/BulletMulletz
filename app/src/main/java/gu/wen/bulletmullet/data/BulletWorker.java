@@ -1,17 +1,14 @@
-package gu.wen.bulletmullet;
+package gu.wen.bulletmullet.data;
 import java.util.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.concurrent.SynchronousQueue;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.app.Service;
 
 /**
  * Created by angelwen on 6/18/17.

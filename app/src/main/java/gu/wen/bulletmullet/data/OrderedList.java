@@ -1,4 +1,4 @@
-package gu.wen.bulletmullet;
+package gu.wen.bulletmullet.data;
 import java.util.*;
 /**
  * Created by angelwen on 7/9/17.
