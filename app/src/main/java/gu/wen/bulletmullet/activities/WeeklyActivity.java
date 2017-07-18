@@ -10,6 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,9 +28,12 @@ public class WeeklyActivity extends AppCompatActivity {
     private static final String TAG = "WeeklyActivity";// for log printing purposes
 
 
-    private RecyclerView curRecyclerView;// list of tasks
+    private RecyclerView dayEntryRecyclerView; // list of days
+    private RecyclerView taskRecyclerView;// list of tasks
+    private ArrayAdapter<DayEntry> weekAdapter;
     private DayEntryAdapter curAdapter;// to make recyclerview responsive
-    private RecyclerView.LayoutManager mLayoutManager;// to alter recyclerview layout
+    private RecyclerView.LayoutManager dayEntryLayoutManager;// to alter recyclerview layout
+    private RecyclerView.LayoutManager taskLayoutManager;// to alter recyclerview layout
 
     private int numWeekDays = 7;
     private DayEntry[] dayEntries = new DayEntry[numWeekDays];// for each day of the week
@@ -35,6 +41,7 @@ public class WeeklyActivity extends AppCompatActivity {
     Button button;
     EditText add_task; // to add tasks to recyclerview
     private static Context context; // context of current state of the application/object
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +63,6 @@ public class WeeklyActivity extends AppCompatActivity {
 
         int x = (int) ev.getX();
         int y = (int) ev.getY();
-
         //retracts the keyboard if not pressing
         if (ev.getAction() == MotionEvent.ACTION_UP &&
                 !getLocationOnScreen((add_task)).contains(x, y)) {
@@ -70,7 +76,7 @@ public class WeeklyActivity extends AppCompatActivity {
 
         return handleReturn;
     }
-
+//INITIATION
     private void initiateVariables(){
         context = getApplicationContext();
         initiateDayEntries();
@@ -87,72 +93,38 @@ public class WeeklyActivity extends AppCompatActivity {
     }
 
     private void setRecyclerView(){
-        curRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+
+        dayEntryRecyclerView = (RecyclerView) findViewById(R.id.dayEntryList);
+        dayEntryRecyclerView.setHasFixedSize(true);
+        dayEntryLayoutManager = new LinearLayoutManager(this);
+        dayEntryRecyclerView.setLayoutManager(dayEntryLayoutManager);
+        weekAdapter = new ArrayAdapter<DayEntry>(this,
+                R.layout.adapter_dayentry, // what view to use for the items
+                dayEntries); // where to get all the data
+
+
+
+
+        /*
+        taskRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        curRecyclerView.setHasFixedSize(true);
+        taskRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
-        curRecyclerView.setLayoutManager(mLayoutManager);
+        taskRecyclerView.setLayoutManager(mLayoutManager);
 
 
         DayEntry myDataset = dayEntries[0];
 
         // specify an adapter - used to update recyclerview
         curAdapter = new DayEntryAdapter(myDataset);
-        curRecyclerView.setAdapter(curAdapter);
-
+        taskRecyclerView.setAdapter(curAdapter);
+        */
     }
 
-    public void addKeyListener(){
-        //add new bullet
-        ///Log.d(TAG, "Task to add: " + task);
-        final DayEntry d = dayEntries[0];
-
-        add_task.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-                // if keydown and "enter" is pressed
-                if ((event.getAction() == KeyEvent.ACTION_DOWN)
-                        && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    String task = String.valueOf(add_task.getText()).trim();
-                    if(task!= null && !task.isEmpty()) {
-                        curAdapter.add("todo", task);
-                        // display a floating message
-                        Toast.makeText(WeeklyActivity.this,
-                                task, Toast.LENGTH_LONG).show();
-                    }
-                    //make edittext invisible and empty
-                    add_task.setVisibility(View.GONE);
-                    add_task.setText("");
-
-                    updateUI(false);
-                    return true;
-
-                }
-                return false;
-            }
-
-        });
-
-    }
-
-
-    protected Rect getLocationOnScreen(EditText mEditText) {
-        Rect mRect = new Rect();
-        int[] location = new int[2];
-
-        mEditText.getLocationOnScreen(location);
-
-        mRect.left = location[0];
-        mRect.top = location[1];
-        mRect.right = location[0] + mEditText.getWidth();
-        mRect.bottom = location[1] + mEditText.getHeight();
-
-        return mRect;
-    }
     //initiates the day entries for the current week, starting with monday of this week
     public void initiateDayEntries(){
         // get today and clear time of day
@@ -170,20 +142,29 @@ public class WeeklyActivity extends AppCompatActivity {
 
     }
 
-    private void updateUI(boolean keyboardDisplayed){
+//LISTENERS
+    public void addKeyListener(){
+        //add new bullet
+        final DayEntry d = dayEntries[0];
 
-        //adjusts recyclerview size
-        ViewGroup.LayoutParams params= curRecyclerView.getLayoutParams();
-        params.height= RecyclerView.LayoutParams.WRAP_CONTENT;
-        curRecyclerView.setLayoutParams(params);
+        add_task.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
 
-        if(!keyboardDisplayed){
-            InputMethodManager input = (InputMethodManager)
-                    getSystemService(Context.INPUT_METHOD_SERVICE);
-            input.hideSoftInputFromWindow(getWindow().getCurrentFocus()
-                    .getWindowToken(), 0);
-        }
+                // if keydown and "enter" is pressed
+                if ((event.getAction() == KeyEvent.ACTION_DOWN)
+                        && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    enterTask();
+
+                }
+                return false;
+            }
+
+        });
+
     }
+
+
+//BUTTON ACTIONS
 
     public void addTask(View view){
         View parent = (View) view.getParent();
@@ -204,9 +185,62 @@ public class WeeklyActivity extends AppCompatActivity {
         View parent = (View) view.getParent();
         TextView taskTextView = (TextView) parent.findViewById(R.id.task_content);
         //mAdapter.delete
+    }
 
+    public void enterTask(){
+        String task = String.valueOf(add_task.getText()).trim();
+        if(task!= null && !task.isEmpty()) {
+            curAdapter.add("todo", task);
+            // display a floating message
+            Toast.makeText(WeeklyActivity.this,
+                    task, Toast.LENGTH_LONG).show();
+        }
+        //make edittext invisible and empty
+        add_task.setVisibility(View.GONE);
+        add_task.setText("");
+
+        updateUI(false);
 
     }
+
+    public void changeCurAddTask(View view){
+        add_task = (EditText) view.findViewById(R.id.add_task);
+
+    }
+
+//UPDATES
+
+    private void updateUI(boolean keyboardDisplayed){
+
+        //adjusts recyclerview size
+        ViewGroup.LayoutParams params= taskRecyclerView.getLayoutParams();
+        params.height= RecyclerView.LayoutParams.WRAP_CONTENT;
+        taskRecyclerView.setLayoutParams(params);
+
+        if(!keyboardDisplayed){
+            InputMethodManager input = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            input.hideSoftInputFromWindow(getWindow().getCurrentFocus()
+                    .getWindowToken(), 0);
+        }
+    }
+
+    protected Rect getLocationOnScreen(EditText mEditText) {
+        Rect mRect = new Rect();
+        int[] location = new int[2];
+
+        mEditText.getLocationOnScreen(location);
+
+        mRect.left = location[0];
+        mRect.top = location[1];
+        mRect.right = location[0] + mEditText.getWidth();
+        mRect.bottom = location[1] + mEditText.getHeight();
+
+        return mRect;
+    }
+
+
+
 
 }
 
