@@ -1,4 +1,4 @@
-package gu.wen.bulletmullet;
+/*package gu.wen.bulletmullet;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
@@ -85,4 +85,5 @@ public class WeeklyActivityFake extends AppCompatActivity {
         });
     }
 }
+*/
 

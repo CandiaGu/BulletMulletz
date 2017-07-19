@@ -46,6 +46,10 @@ public class DayEntryAdapter extends RecyclerView.Adapter<DayEntryAdapter.ViewHo
         int pos = getItemCount();
         notifyItemInserted(pos-1);
 
+    }
+
+    public void delete(String bullettype, String text){
+        dayEntry.deleteBullet(bullettype, text);
 
     }
 
