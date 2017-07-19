@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.*;
 
-public class WeeklyActivity extends AppCompatActivity {
+public class WeeklyActivityFake extends AppCompatActivity {
     private EditText edittext;
     private static Context context;
     private static DayEntry d;
@@ -72,6 +72,11 @@ public class WeeklyActivity extends AppCompatActivity {
                     // display a floating message
                     Toast.makeText(WeeklyActivity.this,
                             events_str, Toast.LENGTH_LONG).show();
+                    return true;
+                }else if ((event.getAction() == KeyEvent.ACTION_DOWN)
+                        && (keyCode == KeyEvent.KEYCODE_7)) {
+                    d.deleteBullet("note","thing");
+
                     return true;
                 }
 

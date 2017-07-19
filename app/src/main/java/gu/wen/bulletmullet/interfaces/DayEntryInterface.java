@@ -1,5 +1,8 @@
-package gu.wen.bulletmullet;
+package gu.wen.bulletmullet.interfaces;
 import java.util.*;
+
+import gu.wen.bulletmullet.data.BulletItem;
+
 /**
  * Created by angelwen on 7/2/17.
  */
@@ -24,4 +27,10 @@ public interface DayEntryInterface {
 
     /** returns a list of notes to show**/
     public LinkedList<BulletItem> getNotesList();
+
+    /** returns the date as a string**/
+    public String getDateString();
+
+    /** clears all of the bullets in the day **/
+    public void clearAllBullets();
 }
