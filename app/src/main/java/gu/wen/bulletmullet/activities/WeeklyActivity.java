@@ -24,6 +24,7 @@ import java.util.List;
 import gu.wen.bulletmullet.adapters.DayEntryAdapter;
 import gu.wen.bulletmullet.R;
 import gu.wen.bulletmullet.adapters.ExpandableListAdapter;
+import gu.wen.bulletmullet.data.BulletItem;
 import gu.wen.bulletmullet.data.DayEntry;
 
 public class WeeklyActivity extends AppCompatActivity {
@@ -36,6 +37,8 @@ public class WeeklyActivity extends AppCompatActivity {
     private DayEntryAdapter curAdapter;// to make recyclerview responsive
     private RecyclerView.LayoutManager mLayoutManager;// to alter recyclerview layout
 
+    private String[] DAY_OF_WEEK = {"Monday", "Tuesday", "Wednesday", "Thursday",
+                                                        "Friday", "Saturday", "Sunday"};
     private int NUM_WEEK_DAYS = 7;
     private DayEntry[] dayEntries = new DayEntry[NUM_WEEK_DAYS];// for each day of the week
 
@@ -48,7 +51,7 @@ public class WeeklyActivity extends AppCompatActivity {
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
-    HashMap<String, List<String>> listDataChild;
+    HashMap<String, List<BulletItem>> listDataChild;
 
 
     /**
@@ -106,7 +109,7 @@ public class WeeklyActivity extends AppCompatActivity {
      */
     private void initiateVariables(){
         context = getApplicationContext();
-        //initiateDayEntries();
+        initiateDayEntries();
         //add_task = (EditText) findViewById(R.id.add_task);
         //add_task.setVisibility(View.GONE);
     }
@@ -137,28 +140,6 @@ public class WeeklyActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * Sets the layout manager and the adapter for the RecyclerView bullet list
-     */
-    private void setRecyclerView(){
-        curRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        curRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        curRecyclerView.setLayoutManager(mLayoutManager);
-
-
-        DayEntry myDataset = dayEntries[0];
-
-        // specify an adapter - used to update recyclerview
-        curAdapter = new DayEntryAdapter(myDataset);
-        curRecyclerView.setAdapter(curAdapter);
-
-    }
 
 
     private void setExpandableListView(){
@@ -193,6 +174,7 @@ public class WeeklyActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),
                         listDataHeader.get(groupPosition) + " Expanded",
                         Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -223,50 +205,33 @@ public class WeeklyActivity extends AppCompatActivity {
                                 listDataHeader.get(groupPosition)).get(
                                 childPosition), Toast.LENGTH_SHORT)
                         .show();
+                if(listAdapter.getChildType(groupPosition,childPosition)==1){
+
+
+                }
+
                 return false;
             }
         });
+
+
     }
     /*
  * Preparing the list data
  */
     private void prepareListData() {
         listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
+        listDataChild = new HashMap<String, List<BulletItem>>();
 
         // Adding child data
-        listDataHeader.add("Top 250");
-        listDataHeader.add("Now Showing");
-        listDataHeader.add("Coming Soon..");
+        for(int i = 0; i < NUM_WEEK_DAYS; i++){
+            listDataHeader.add(DAY_OF_WEEK[i]);
+            listDataChild.put(listDataHeader.get(i), dayEntries[i].getTodoList());
+            if(dayEntries.length == 0)//for the edittext entry
+                dayEntries[i].addBullet("todo", " ");
 
-        // Adding child data
-        List<String> top250 = new ArrayList<String>();
-        top250.add("The Shawshank Redemption");
-        top250.add("The Godfather");
-        top250.add("The Godfather: Part II");
-        top250.add("Pulp Fiction");
-        top250.add("The Good, the Bad and the Ugly");
-        top250.add("The Dark Knight");
-        top250.add("12 Angry Men");
+        }
 
-        List<String> nowShowing = new ArrayList<String>();
-        nowShowing.add("The Conjuring");
-        nowShowing.add("Despicable Me 2");
-        nowShowing.add("Turbo");
-        nowShowing.add("Grown Ups 2");
-        nowShowing.add("Red 2");
-        nowShowing.add("The Wolverine");
-
-        List<String> comingSoon = new ArrayList<String>();
-        comingSoon.add("2 Guns");
-        comingSoon.add("The Smurfs 2");
-        comingSoon.add("The Spectacular Now");
-        comingSoon.add("The Canyons");
-        comingSoon.add("Europa Report");
-
-        listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);
     }
 
 
@@ -312,8 +277,6 @@ public class WeeklyActivity extends AppCompatActivity {
     }
 
 
-
-
 /// Updates
 
 
@@ -346,7 +309,7 @@ public class WeeklyActivity extends AppCompatActivity {
      * Makes edittext visible and pressed on it programmatically
      * @param view
      */
-    public void addTask(View view){
+    public void make_edittext_visible(View view){
         View parent = (View) view.getParent();
         button = (Button) findViewById(R.id.add_task_button);
 
@@ -376,6 +339,7 @@ public class WeeklyActivity extends AppCompatActivity {
 
 
     }
+
 
 //// Helper Functions
     /**

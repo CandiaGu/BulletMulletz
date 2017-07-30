@@ -21,6 +21,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:text="@string/wklog"
+        android:textSize="17dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/wklog"
+        android:gravity="center"
+        android:textSize="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/textView"
+        tools:layout_editor_absoluteX="31dp" />
+
     <ExpandableListView
         android:id="@+id/lvExp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-    />
+        android:layout_height="552dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintLeft_toLeftOf="@+id/textView"
+        app:layout_constraintRight_toRightOf="@+id/textView"
+        tools:layout_editor_absoluteX="-45dp"
+        tools:layout_editor_absoluteY="74dp"
+        android:childDivider="#00000000"
+        />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

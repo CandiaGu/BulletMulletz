@@ -6,23 +6,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.List;
 
 import gu.wen.bulletmullet.R;
+import gu.wen.bulletmullet.data.BulletItem;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
 	private Context _context;
 	private List<String> _listDataHeader; // header titles
 	// child data in format of header title, child title
-	private HashMap<String, List<String>> _listDataChild;
+	private HashMap<String, List<BulletItem>> _listDataChild;
     private int childTypeCount;
 
 	public ExpandableListAdapter(Context context, List<String> listDataHeader,
-                                 HashMap<String, List<String>> listChildData) {
+                                 HashMap<String, List<BulletItem>> listChildData) {
 		this._context = context;
 		this._listDataHeader = listDataHeader;
 		this._listDataChild = listChildData;
@@ -32,7 +34,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	@Override
 	public Object getChild(int groupPosition, int childPosititon) {
 		return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-				.get(childPosititon);
+				.get(childPosititon).toString();
 	}
 
 	@Override
@@ -46,6 +48,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         // Return a number here, 1 to whatever you return in getChildTypeCount.
         // Each number should correspond to a particular layout, using group
         // and child position to determine which layout to produce.
+        //0 -> bulletitem
+        //1 -> edittext
         if (childPosition < getChildrenCount(groupPosition)-1)
             return 0;
         else
@@ -73,19 +77,22 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             switch(getChildType(groupPosition, childPosition)){
                 case 0:
                     convertView = infalInflater.inflate(R.layout.list_item, null);
+                    TextView txtListChild = (TextView) convertView
+                            .findViewById(R.id.lblListItem);
+                    txtListChild.setText(childText);
                     break;
                 case 1:
                     convertView = infalInflater.inflate(R.layout.list_item2, null);
+                    EditText et = (EditText)convertView.findViewById(R.id.lblListItem);
+                    et.setEnabled(false);
+                    et.setClickable(false);
+                    //edittext.setVisibility(View.GONE);
                     break;
             }
 
 
 		}
 
-		TextView txtListChild = (TextView) convertView
-				.findViewById(R.id.lblListItem);
-
-		txtListChild.setText(childText);
 		return convertView;
 	}
 
