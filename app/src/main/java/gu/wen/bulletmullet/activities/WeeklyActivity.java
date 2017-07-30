@@ -205,8 +205,9 @@ public class WeeklyActivity extends AppCompatActivity {
                                 listDataHeader.get(groupPosition)).get(
                                 childPosition), Toast.LENGTH_SHORT)
                         .show();
+                //if child is edittext
                 if(listAdapter.getChildType(groupPosition,childPosition)==1){
-
+                    View paretn  = listAdapter.getChildView(groupPosition, childPosition, null, expListView);
 
                 }
 
@@ -227,8 +228,8 @@ public class WeeklyActivity extends AppCompatActivity {
         for(int i = 0; i < NUM_WEEK_DAYS; i++){
             listDataHeader.add(DAY_OF_WEEK[i]);
             listDataChild.put(listDataHeader.get(i), dayEntries[i].getTodoList());
-            if(dayEntries.length == 0)//for the edittext entry
-                dayEntries[i].addBullet("todo", " ");
+            if(dayEntries[i].getTodoList().size() == 0)//for the edittext entry
+                dayEntries[i].addBullet("todo", "addBullet");
 
         }
 
