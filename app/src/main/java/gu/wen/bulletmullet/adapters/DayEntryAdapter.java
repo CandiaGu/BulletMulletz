@@ -49,6 +49,10 @@ public class DayEntryAdapter extends RecyclerView.Adapter<DayEntryAdapter.ViewHo
 
     }
 
+    public void delete(String bullettype, String text){
+        dayEntry.deleteBullet(bullettype,text);
+    }
+
     // Create new views (invoked by the layout manager)
     @Override
     public DayEntryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,

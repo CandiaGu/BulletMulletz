@@ -63,8 +63,7 @@ public class WeeklyActivity extends AppCompatActivity {
 
             InputMethodManager input = (InputMethodManager)
                     getSystemService(Context.INPUT_METHOD_SERVICE);
-            input.hideSoftInputFromWindow(getWindow().getCurrentFocus()
-                    .getWindowToken(), 0);
+            updateUI(false);
         }
 
 
@@ -180,8 +179,11 @@ public class WeeklyActivity extends AppCompatActivity {
         if(!keyboardDisplayed){
             InputMethodManager input = (InputMethodManager)
                     getSystemService(Context.INPUT_METHOD_SERVICE);
-            input.hideSoftInputFromWindow(getWindow().getCurrentFocus()
-                    .getWindowToken(), 0);
+            if (getWindow().getCurrentFocus()
+                    .getWindowToken()!=null) {
+                input.hideSoftInputFromWindow(getWindow().getCurrentFocus()
+                        .getWindowToken(), 0);
+            }
         }
     }
 
@@ -203,7 +205,9 @@ public class WeeklyActivity extends AppCompatActivity {
     public void removeTask(View view){
         View parent = (View) view.getParent();
         TextView taskTextView = (TextView) parent.findViewById(R.id.task_content);
-        //mAdapter.delete
+        String task = String.valueOf(taskTextView.getText());
+        curAdapter.delete("todo",task);
+        updateUI(false);
 
 
     }
