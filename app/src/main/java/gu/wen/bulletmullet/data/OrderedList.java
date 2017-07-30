@@ -21,7 +21,7 @@ public class OrderedList<T extends Comparable<T>> extends LinkedList<T> {
             if (elementInList.compareTo(element) > 0) {
                 itr.previous();
                 itr.add(element);
-                System.out.println("Adding");
+                //System.out.println("Adding");
                 return(true);
             }
         }

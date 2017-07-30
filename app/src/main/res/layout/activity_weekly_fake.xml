@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:fillViewport="false">
+<android.support.constraint.ConstraintLayout
+    android:id="@+id/activity_weekly"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="gu.wen.bulletmullet.activities.WeeklyActivityFake">
+
+    <TextView
+        android:id="@+id/weeklyHead"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/wklog"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp" />
+
+    <TextView
+        android:id="@+id/weekDay"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/mon"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/weeklyHead"
+        android:layout_marginRight="20dp"
+        app:layout_constraintRight_toRightOf="@+id/weeklyHead"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintLeft_toLeftOf="@+id/weeklyHead" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
+        android:layout_width="262dp"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/weekDay" />
+
+    <Button
+        android:id="@+id/add_task_button"
+        android:layout_width="39dp"
+        android:layout_height="43dp"
+        android:text="+"
+        android:onClick="addTask"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/my_recycler_view"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintLeft_toLeftOf="@+id/weeklyHead"
+        />
+
+    <EditText
+        android:id="@+id/add_task"
+        android:layout_height="37dp"
+        android:layout_width="208dp"
+        android:inputType="text"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@+id/add_task_button"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="30dp"
+        app:layout_constraintRight_toRightOf="@+id/weeklyHead"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="14dp"
+        app:layout_constraintTop_toBottomOf="@+id/my_recycler_view" />
+
+</android.support.constraint.ConstraintLayout>
+</ScrollView>

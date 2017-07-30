@@ -37,7 +37,7 @@ public class BulletWorker {
     public void addBullet(String type, String text){//Task, Event, Note
         Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE+" WHERE type = '"+type+"' AND day = '"+dayStr+"'", null);
         int position = c.getCount();
-
+        System.out.println("the count is " + position);
         ContentValues contentValues = new ContentValues();
         contentValues.put("type",type);
         contentValues.put("content",text);
@@ -72,14 +72,18 @@ public class BulletWorker {
         }
     }
 
-    public void deleteBullet(String type, String text){
-        db.delete(DATABASE_TABLE, "type" + "=? AND content "+"=? AND day"+"=?", new String[]{type,text,dayStr});
+    public void deleteBullet(String type, String text, int position){
+        //make the ids after the thing being deleted minus
+        db.delete(DATABASE_TABLE, "type" + "=? AND content "+"=? AND day"+"=? AND pos"+"=?", new String[]{type,text,dayStr,""+position});
+        db.execSQL("UPDATE " + DATABASE_TABLE + " SET pos = pos - 1 " +
+                "WHERE type = '" + type + "' AND day = '" + dayStr + "' " +
+                "AND pos > " + position +"");
     }
     public void clearAllBullets(){
         db.delete(DATABASE_TABLE, "day"+"=?", new String[]{dayStr});
     }
 
-    public LinkedList<BulletItem> getBulletList(String type){
+    public ArrayList<BulletItem> getBulletList(String type){
         Cursor c = db.rawQuery("SELECT * FROM "+DATABASE_TABLE+" WHERE type = '"+type+"' AND day = '"+dayStr+"'", null);
 
         OrderedList<BulletItem> l = new OrderedList<BulletItem>();
@@ -91,7 +95,12 @@ public class BulletWorker {
                 l.orderedAdd(bi);
             }while(c.moveToNext());
         }
-        return l;
+        ArrayList<BulletItem> a = new ArrayList<BulletItem>();
+        Iterator<BulletItem> itr = l.iterator();
+        while (itr.hasNext()){
+            a.add(itr.next());
+        }
+        return a;
     }
 
 

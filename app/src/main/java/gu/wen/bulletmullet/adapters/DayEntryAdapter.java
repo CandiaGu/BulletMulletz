@@ -1,5 +1,6 @@
 package gu.wen.bulletmullet.adapters;
 
+import android.provider.Settings;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,17 +41,17 @@ public class DayEntryAdapter extends RecyclerView.Adapter<DayEntryAdapter.ViewHo
 
     public void add(String bulletType, String text) {
         dayEntry.addBullet(bulletType, text);
-        //System.out.print("text:" + text);
+        System.out.print("adding text:" + text);
         Log.d("todo", dayEntry.getTodoList().toString());
+        System.out.println("todo"+ dayEntry.getTodoList().toString());
         //last position
         int pos = getItemCount();
         notifyItemInserted(pos-1);
-
-
     }
 
-    public void delete(String bullettype, String text){
-        dayEntry.deleteBullet(bullettype,text);
+    public void delete(String bullettype, String text, int position){
+        System.out.println("position is "+position+" and string is "+text);
+        dayEntry.deleteBullet(bullettype,text,position);
     }
 
     // Create new views (invoked by the layout manager)
@@ -71,8 +72,9 @@ public class DayEntryAdapter extends RecyclerView.Adapter<DayEntryAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+        System.out.println("the on bind view holder thing has this: "+ dayEntry.getTodoList().get(position).toString());
         holder.mTextView.setText(dayEntry.getTodoList().get(position).toString());
-
+        holder.mTextView.setTag(dayEntry.getTodoList().get(position));
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -81,3 +83,7 @@ public class DayEntryAdapter extends RecyclerView.Adapter<DayEntryAdapter.ViewHo
         return dayEntry.getTodoList().size();
     }
 }
+
+
+
+

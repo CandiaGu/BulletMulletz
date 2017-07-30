@@ -24,9 +24,8 @@ public class DayEntry implements DayEntryInterface {
         //System.out.println("hello");
         bullet.addBullet(bulletType, text);
     }
-    public void deleteBullet(String bulletType, String text){
-        bullet.deleteBullet(bulletType, text);
-        System.out.println("should delete bullet in the future");
+    public void deleteBullet(String bulletType, String text, int position){
+        bullet.deleteBullet(bulletType, text, position);
     }
     public void clearAllBullets(){
         bullet.clearAllBullets();
@@ -40,12 +39,14 @@ public class DayEntry implements DayEntryInterface {
         return df.format(date);
     }
 
-    public LinkedList<BulletItem> getEventsList(){
+    public ArrayList<BulletItem> getEventsList(){
         return bullet.getBulletList("event");
     }
-    public LinkedList<BulletItem> getTodoList() {return bullet.getBulletList("todo");}
-    public LinkedList<BulletItem> getNotesList(){
+    public ArrayList<BulletItem> getTodoList() {return bullet.getBulletList("todo");}
+    public ArrayList<BulletItem> getNotesList(){
         return bullet.getBulletList("note");
     }
-
+    public Date getDate(){
+        return date;
+    }
 }

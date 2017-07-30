@@ -18,9 +18,8 @@ import java.util.Calendar;
 import gu.wen.bulletmullet.adapters.DayEntryAdapter;
 import gu.wen.bulletmullet.R;
 import gu.wen.bulletmullet.data.DayEntry;
-
+import gu.wen.bulletmullet.data.BulletItem;
 public class WeeklyActivity extends AppCompatActivity {
-
 
     private static final String TAG = "WeeklyActivity";// for log printing purposes
 
@@ -206,7 +205,9 @@ public class WeeklyActivity extends AppCompatActivity {
         View parent = (View) view.getParent();
         TextView taskTextView = (TextView) parent.findViewById(R.id.task_content);
         String task = String.valueOf(taskTextView.getText());
-        curAdapter.delete("todo",task);
+        BulletItem bi = (BulletItem)(taskTextView.getTag());
+        int position = bi.getPosition();
+        curAdapter.delete("todo",task, position);
         updateUI(false);
 
 
