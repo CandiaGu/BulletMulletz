@@ -51,7 +51,7 @@ public class WeeklyActivity extends AppCompatActivity {
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
-    HashMap<String, List<BulletItem>> listDataChild;
+    HashMap<String, DayEntry> listDataChild;
 
 
     /**
@@ -205,11 +205,8 @@ public class WeeklyActivity extends AppCompatActivity {
                                 listDataHeader.get(groupPosition)).get(
                                 childPosition), Toast.LENGTH_SHORT)
                         .show();
-                //if child is edittext
-                if(listAdapter.getChildType(groupPosition,childPosition)==1){
-                    View paretn  = listAdapter.getChildView(groupPosition, childPosition, null, expListView);
 
-                }
+
 
                 return false;
             }
@@ -227,9 +224,11 @@ public class WeeklyActivity extends AppCompatActivity {
         // Adding child data
         for(int i = 0; i < NUM_WEEK_DAYS; i++){
             listDataHeader.add(DAY_OF_WEEK[i]);
-            listDataChild.put(listDataHeader.get(i), dayEntries[i].getTodoList());
+
+            System.out.print(dayEntries[i].getTodoList().size());
             if(dayEntries[i].getTodoList().size() == 0)//for the edittext entry
                 dayEntries[i].addBullet("todo", "addBullet");
+            listDataChild.put(listDataHeader.get(i), dayEntries[i].getTodoList());
 
         }
 
@@ -312,8 +311,12 @@ public class WeeklyActivity extends AppCompatActivity {
      */
     public void make_edittext_visible(View view){
         View parent = (View) view.getParent();
-        button = (Button) findViewById(R.id.add_task_button);
+        add_task = (EditText) parent.findViewById(R.id.lblListItem);
 
+
+        Toast.makeText(getApplicationContext(),
+                add_task.toString(),
+                Toast.LENGTH_SHORT).show();
         //make edittext visible
         add_task.setVisibility(View.VISIBLE);
         //create make edittext visible
@@ -324,6 +327,32 @@ public class WeeklyActivity extends AppCompatActivity {
                 SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN , 0, 0, 0));
         add_task.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(),
                 SystemClock.uptimeMillis(), MotionEvent.ACTION_UP , 0, 0, 0));
+        add_task.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                // if keydown and "enter" is pressed
+                if ((event.getAction() == KeyEvent.ACTION_DOWN)
+                        && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    String task = String.valueOf(add_task.getText()).trim();
+                    if(task!= null && !task.isEmpty()) {
+                        //listAdapter.addChild(, task);
+                        // display a floating message
+                        Toast.makeText(WeeklyActivity.this,
+                                task, Toast.LENGTH_LONG).show();
+                    }
+                    //make edittext invisible and empty
+                    add_task.setVisibility(View.GONE);
+                    add_task.setText("");
+
+                    updateUI(false);
+                    return true;
+
+                }
+                return false;
+            }
+
+        });
+
     }
 
     /**
