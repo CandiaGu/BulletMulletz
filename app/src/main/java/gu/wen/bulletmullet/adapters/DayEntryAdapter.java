@@ -49,9 +49,10 @@ public class DayEntryAdapter extends RecyclerView.Adapter<DayEntryAdapter.ViewHo
         notifyItemInserted(pos-1);
     }
 
-    public void delete(String bullettype, String text, int position){
+    public void delete(String bullettype, String text, int position, RecyclerView recyclerView){
         System.out.println("position is "+position+" and string is "+text);
         dayEntry.deleteBullet(bullettype,text,position);
+        recyclerView.removeAllViewsInLayout();
     }
 
     // Create new views (invoked by the layout manager)

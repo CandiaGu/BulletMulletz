@@ -207,7 +207,7 @@ public class WeeklyActivity extends AppCompatActivity {
         String task = String.valueOf(taskTextView.getText());
         BulletItem bi = (BulletItem)(taskTextView.getTag());
         int position = bi.getPosition();
-        curAdapter.delete("todo",task, position);
+        curAdapter.delete("todo",task, position,curRecyclerView);
         updateUI(false);
 
 
