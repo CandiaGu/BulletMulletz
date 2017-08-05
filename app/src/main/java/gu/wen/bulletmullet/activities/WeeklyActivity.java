@@ -1,11 +1,8 @@
 package gu.wen.bulletmullet.activities;
 
 import android.content.Context;
-import android.graphics.Rect;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.*;
@@ -21,10 +18,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-import gu.wen.bulletmullet.adapters.DayEntryAdapter;
 import gu.wen.bulletmullet.R;
 import gu.wen.bulletmullet.adapters.ExpandableListAdapter;
-import gu.wen.bulletmullet.data.BulletItem;
 import gu.wen.bulletmullet.data.DayEntry;
 
 public class WeeklyActivity extends AppCompatActivity {
@@ -32,9 +27,6 @@ public class WeeklyActivity extends AppCompatActivity {
 
     private static final String TAG = "WeeklyActivity";// for log printing purposes
 
-
-    private RecyclerView curRecyclerView;// list of tasks
-    private DayEntryAdapter curAdapter;// to make recyclerview responsive
     private RecyclerView.LayoutManager mLayoutManager;// to alter recyclerview layout
 
     private String[] DAY_OF_WEEK = {"Monday", "Tuesday", "Wednesday", "Thursday",
@@ -80,7 +72,7 @@ public class WeeklyActivity extends AppCompatActivity {
      * @param ev occuring touch event
      * @return
      */
-/*
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
 
@@ -90,8 +82,7 @@ public class WeeklyActivity extends AppCompatActivity {
         int y = (int) ev.getY();
 
         //retracts the keyboard if not pressing
-        if (ev.getAction() == MotionEvent.ACTION_UP &&
-                !getLocationOnScreen((add_task)).contains(x, y)) {
+        if (ev.getAction() == MotionEvent.ACTION_UP) {
 
             InputMethodManager input = (InputMethodManager)
                     getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -103,7 +94,6 @@ public class WeeklyActivity extends AppCompatActivity {
         return handleReturn;
     }
 
-*/
     /**
      * Initiates global variables
      */
@@ -140,8 +130,6 @@ public class WeeklyActivity extends AppCompatActivity {
 
     }
 
-
-
     private void setExpandableListView(){
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
@@ -150,7 +138,9 @@ public class WeeklyActivity extends AppCompatActivity {
         prepareListData();
 
         listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
-
+        for(int i = 0; i < listAdapter.getGroupCount(); i++)
+            if(listAdapter.getChildrenCount(i) == 0)
+                listAdapter.addChild(i,"addTask");
         // setting list adapter
         expListView.setAdapter(listAdapter);
 
@@ -202,7 +192,7 @@ public class WeeklyActivity extends AppCompatActivity {
                         listDataHeader.get(groupPosition)
                                 + " : "
                                 + listDataChild.get(
-                                listDataHeader.get(groupPosition)).get(
+                                listDataHeader.get(groupPosition)).getTodoList().get(
                                 childPosition), Toast.LENGTH_SHORT)
                         .show();
 
@@ -219,60 +209,18 @@ public class WeeklyActivity extends AppCompatActivity {
  */
     private void prepareListData() {
         listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<BulletItem>>();
+        listDataChild = new HashMap<String, DayEntry>();
 
         // Adding child data
         for(int i = 0; i < NUM_WEEK_DAYS; i++){
             listDataHeader.add(DAY_OF_WEEK[i]);
 
             System.out.print(dayEntries[i].getTodoList().size());
-            if(dayEntries[i].getTodoList().size() == 0)//for the edittext entry
-                dayEntries[i].addBullet("todo", "addBullet");
-            listDataChild.put(listDataHeader.get(i), dayEntries[i].getTodoList());
+            //if(dayEntries[i].getTodoList().size() == 0)//for the edittext entry
+            //    dayEntries[i].addBullet("todo", "addBullet");
+            listDataChild.put(listDataHeader.get(i), dayEntries[i]);
 
         }
-
-    }
-
-
-    /**
-     * Adds key listeners to views that require actions when interacted with
-     *
-     * Listeners:
-     *
-     * add_task - once enter is  pressed, adds text to database and makes the edittext invisible
-     */
-
-    public void addKeyListener(){
-        //add new bullet
-        ///Log.d(TAG, "Task to add: " + task);
-        final DayEntry d = dayEntries[0];
-
-        add_task.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-                // if keydown and "enter" is pressed
-                if ((event.getAction() == KeyEvent.ACTION_DOWN)
-                        && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    String task = String.valueOf(add_task.getText()).trim();
-                    if(task!= null && !task.isEmpty()) {
-                        curAdapter.add("todo", task);
-                        // display a floating message
-                        Toast.makeText(WeeklyActivity.this,
-                                task, Toast.LENGTH_LONG).show();
-                    }
-                    //make edittext invisible and empty
-                    add_task.setVisibility(View.GONE);
-                    add_task.setText("");
-
-                    updateUI(false);
-                    return true;
-
-                }
-                return false;
-            }
-
-        });
 
     }
 
@@ -286,11 +234,6 @@ public class WeeklyActivity extends AppCompatActivity {
      */
     private void updateUI(boolean keyboardDisplayed){
 
-        //adjusts recyclerview size
-        ViewGroup.LayoutParams params= curRecyclerView.getLayoutParams();
-        params.height= RecyclerView.LayoutParams.WRAP_CONTENT;
-        curRecyclerView.setLayoutParams(params);
-
         if(!keyboardDisplayed){
             InputMethodManager input = (InputMethodManager)
                     getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -298,97 +241,12 @@ public class WeeklyActivity extends AppCompatActivity {
 
             if (focus!=null)
                 input.hideSoftInputFromWindow(focus.getWindowToken(), 0);
+            listAdapter.makeEditTextInvisible();
 
         }
     }
 
-//// Button Functions
-
-    /**
-     * Function called when add_task_button is pressed
-     * Makes edittext visible and pressed on it programmatically
-     * @param view
-     */
-    public void make_edittext_visible(View view){
-        View parent = (View) view.getParent();
-        add_task = (EditText) parent.findViewById(R.id.lblListItem);
 
 
-        Toast.makeText(getApplicationContext(),
-                add_task.toString(),
-                Toast.LENGTH_SHORT).show();
-        //make edittext visible
-        add_task.setVisibility(View.VISIBLE);
-        //create make edittext visible
-
-        // programmatically presses add_task
-        add_task.requestFocus();
-        add_task.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(),
-                SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN , 0, 0, 0));
-        add_task.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(),
-                SystemClock.uptimeMillis(), MotionEvent.ACTION_UP , 0, 0, 0));
-        add_task.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-                // if keydown and "enter" is pressed
-                if ((event.getAction() == KeyEvent.ACTION_DOWN)
-                        && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    String task = String.valueOf(add_task.getText()).trim();
-                    if(task!= null && !task.isEmpty()) {
-                        //listAdapter.addChild(, task);
-                        // display a floating message
-                        Toast.makeText(WeeklyActivity.this,
-                                task, Toast.LENGTH_LONG).show();
-                    }
-                    //make edittext invisible and empty
-                    add_task.setVisibility(View.GONE);
-                    add_task.setText("");
-
-                    updateUI(false);
-                    return true;
-
-                }
-                return false;
-            }
-
-        });
-
-    }
-
-    /**
-     * Function called to remove bullets
-     * @param view
-     */
-    public void removeTask(View view){
-        View parent = (View) view.getParent();
-        TextView taskTextView = (TextView) parent.findViewById(R.id.task_content);
-        String task = String.valueOf(taskTextView.getText());
-
-        curAdapter.delete("todo",task);
-        updateUI(false);
-
-
-    }
-
-
-//// Helper Functions
-    /**
-     * Gets a Rect of the View box
-     * @param view the view to get the location of
-     * @return the border Rect of the view
-     */
-    protected Rect getLocationOnScreen(View view) {
-        Rect mRect = new Rect();
-        int[] location = new int[2];
-
-        view.getLocationOnScreen(location);
-
-        mRect.left = location[0];
-        mRect.top = location[1];
-        mRect.right = location[0] + view.getWidth();
-        mRect.bottom = location[1] + view.getHeight();
-
-        return mRect;
-    }
 
 }

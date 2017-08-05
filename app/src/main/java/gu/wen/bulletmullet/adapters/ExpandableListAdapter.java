@@ -34,6 +34,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	// child data in format of header title, child title
 	private HashMap<String, DayEntry> _listDataChild;
     private int childTypeCount;
+    private EditText et = null;
 
 	public ExpandableListAdapter(Context context, List<String> listDataHeader,
                                  HashMap<String, DayEntry> listChildData) {
@@ -45,8 +46,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public String getChild(int groupPosition, int childPosition) {
-		return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-				.get(childPosition).toString();
+		return this._listDataChild.get(this._listDataHeader.get(groupPosition)).
+				getTodoList().get(childPosition).toString();
 	}
 
 	@Override
@@ -62,10 +63,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         // and child position to determine which layout to produce.
         //0 -> bulletitem
         //1 -> edittext
-        if (childPosition < getChildrenCount(groupPosition)-1)
-            return 0;
-        else
+        if (childPosition ==0 )
             return 1;
+        else
+            return 0;
         //return super.getChildType(groupPosition, childPosition);
     }
 
@@ -95,7 +96,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     break;
                 case 1:
                     convertView = infalInflater.inflate(R.layout.list_item2, null);
-                    final EditText et = (EditText)convertView.findViewById(R.id.lblListItem);
+                    et = (EditText)convertView.findViewById(R.id.lblListItem);
                     //et.setEnabled(false);
                     et.setClickable(false);
                     et.setVisibility(View.GONE);
@@ -123,9 +124,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                                             Toast.makeText(_context,
                                                     task, Toast.LENGTH_LONG).show();
                                         }
-                                        //make edittext invisible and empty
-                                        et.setVisibility(View.GONE);
-                                        et.setText("");
+                                        makeEditTextInvisible();
 
                                         //updateUI(false);
                                         notifyDataSetChanged();
@@ -149,18 +148,26 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
 		return convertView;
 	}
-    public void addChild(int groupPosition, String task){
-        Log.d(TAG, "addChild");
-        List list = this._listDataChild.get(this._listDataHeader.get(groupPosition));
-        addBullet()
+	public void makeEditTextInvisible(){
+        if(et!=null){
+            et.setVisibility(View.GONE);
+            et.setText("");
+        }
+
 
     }
+    public void addChild(int groupPosition, String task){
+        Log.d(TAG, "addChild");
+        DayEntry da = this._listDataChild.get(this._listDataHeader.get(groupPosition));
+        da.addBullet("todo", task);
+        notifyDataSetChanged();
+    }
+
 
 
 	@Override
 	public int getChildrenCount(int groupPosition) {
-		return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-				.size();
+		return this._listDataChild.get(this._listDataHeader.get(groupPosition)).getTodoList().size();
 	}
 
 	@Override
